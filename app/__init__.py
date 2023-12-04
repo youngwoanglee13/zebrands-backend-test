@@ -1,7 +1,7 @@
 from flask import Flask
 from .database.db import db
 from config import Config
-from .routes import product_routes, user_routes, auth_routes
+from .routes import product_routes, user_routes, auth_routes, product_views_routes
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -14,3 +14,4 @@ with app.app_context():
 app.register_blueprint(product_routes.product_blueprint)
 app.register_blueprint(user_routes.user_blueprint)
 app.register_blueprint(auth_routes.auth_blueprint)
+app.register_blueprint(product_views_routes.product_views_blueprint)
