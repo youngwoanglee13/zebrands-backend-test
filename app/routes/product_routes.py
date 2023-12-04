@@ -3,6 +3,7 @@ from ..models.product import Product
 from ..schemas.product_schema import ProductSchema
 from ..controllers import product_controller
 from flask_jwt_extended import jwt_required
+from app.controllers import product_views_controller
 
 product_blueprint = Blueprint('product_blueprint', __name__)
 product_schema = ProductSchema()
@@ -41,4 +42,5 @@ def delete_product(id):
 def get_product(id):
     product = Product(id=id)
     product = product_controller.get_product(product)
+    pcc= product_views_controller.add_product_view(product)
     return jsonify(product_schema.dump(product))
