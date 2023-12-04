@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from ..models.product import Product
 from ..schemas.product_schema import ProductSchema
 from ..controllers import product_controller
+from flask_jwt_extended import jwt_required
 
 product_blueprint = Blueprint('product_blueprint', __name__)
 product_schema = ProductSchema()
@@ -12,6 +13,7 @@ def get_all_products():
     products = product_controller.get_all_products()
     return jsonify(products_schema.dump(products))
 
+@jwt_required()
 @product_blueprint.route('/products', methods=['POST'])
 def create_product():
     product_data = product_schema.load(request.json)
@@ -19,6 +21,7 @@ def create_product():
     added_student = product_controller.create_product(new_product)
     return jsonify(product_schema.dump(added_student))
 
+@jwt_required()
 @product_blueprint.route('/products/<int:id>', methods=['PUT'])
 def update_product(id):
     product_data = product_schema.load(request.json, partial=True)
@@ -27,6 +30,7 @@ def update_product(id):
     updated_product = product_controller.update_product(product)
     return jsonify(product_schema.dump(updated_product))
 
+@jwt_required()
 @product_blueprint.route('/products/<int:id>', methods=['DELETE'])
 def delete_product(id):
     product = Product(id=id)
