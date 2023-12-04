@@ -42,5 +42,6 @@ def delete_product(id):
 def get_product(id):
     product = Product(id=id)
     product = product_controller.get_product(product)
-    pcc= product_views_controller.add_product_view(product)
+    if 'Authorization' not in request.headers and product is not None:
+        product_views_controller.add_product_view(product)
     return jsonify(product_schema.dump(product))
