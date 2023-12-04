@@ -14,16 +14,16 @@ def get_all_products():
     products = product_controller.get_all_products()
     return jsonify(products_schema.dump(products))
 
-@jwt_required()
 @product_blueprint.route('/products', methods=['POST'])
+@jwt_required()
 def create_product():
     product_data = product_schema.load(request.json)
     new_product = Product(**product_data)
     added_student = product_controller.create_product(new_product)
     return jsonify(product_schema.dump(added_student))
 
-@jwt_required()
 @product_blueprint.route('/products/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_product(id):
     product_data = product_schema.load(request.json, partial=True)
     product_data['id'] = id
@@ -31,8 +31,8 @@ def update_product(id):
     updated_product = product_controller.update_product(product)
     return jsonify(product_schema.dump(updated_product))
 
-@jwt_required()
 @product_blueprint.route('/products/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_product(id):
     product = Product(id=id)
     deleted_product = product_controller.delete_product(product)
