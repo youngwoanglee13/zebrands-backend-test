@@ -29,3 +29,6 @@ def delete_user(user:User)->User:
     db.session.delete(del_user)
     db.session.commit()
     return del_user
+
+def get_all_users_emails()->list[str]:
+    return db.session.query(User.email).all()

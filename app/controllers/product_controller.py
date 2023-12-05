@@ -1,5 +1,6 @@
 from ..database.db import db
 from ..models.product import Product
+from app.controllers import notification_controller
 
 def get_all_products()->list[Product]:
     return db.session.query(Product).all()
@@ -18,6 +19,7 @@ def update_product(product:Product) -> Product:
          if not key.startswith('_'):
             setattr(upd_product, key, value)
     db.session.commit()
+    notification_controller.notify_product_change(product)
     return upd_product    
 
 def delete_product(product:Product)->Product:
